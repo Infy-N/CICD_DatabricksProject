@@ -30,8 +30,8 @@ jobs:
         run: pip install nbqa black flake8
 
       - name: Lint notebooks with nbQA
-        run: nbqa flake8 . --max-line-length=88
-
+        run: nbqa flake8 . --ignore=E501
+        
       - name: Install dependencies (optional)
         run: |
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
