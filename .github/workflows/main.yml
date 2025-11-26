@@ -8,6 +8,9 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write  # ✅ Required for pushing changes back to the repo
+
 jobs:
   deploy-dev:
     runs-on: ubuntu-latest
@@ -28,18 +31,21 @@ jobs:
 
       - name: Install nbQA, Black, and Flake8
         run: pip install nbqa black flake8
-        
+
+      - name: Auto-format notebooks with Black
+        run: nbqa black . --line-length 88
+
       - name: Commit Black formatting changes
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add .
           git commit -m "Apply Black formatting via nbqa" || echo "No changes to commit"
-          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }} HEAD:main
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/Infy-N/CICD_DatabricksProject.git HEAD:main
 
       - name: Lint notebooks with nbQA
         run: nbqa flake8 . --ignore=E501
-        
+
       - name: Install dependencies (optional)
         run: |
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
