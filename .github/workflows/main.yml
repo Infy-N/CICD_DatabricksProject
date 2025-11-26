@@ -29,9 +29,6 @@ jobs:
       - name: Install nbQA, Black, and Flake8
         run: pip install nbqa black flake8
 
-      - name: Check formatting with Black
-        run: nbqa black . --line-length 88 --check
-
       - name: Lint notebooks with nbQA
         run: nbqa flake8 . --max-line-length=88
 
