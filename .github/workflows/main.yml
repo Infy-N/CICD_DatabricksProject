@@ -25,6 +25,20 @@ jobs:
         with:
           python-version: '3.8'
 
+      - name: Install nbQA and flake8
+        run: pip install nbqa flake8
+
+      - name: Lint notebooks with nbQA
+        run: nbqa flake8 .
+
+      - name: Install dependencies (optional)
+        run: |
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Run tests (optional)
+        run: |
+          if [ -d tests ]; then pytest; else echo "No tests found"; fi
+
       - name: Set up Databricks CLI
         uses: databricks/setup-cli@main
 
