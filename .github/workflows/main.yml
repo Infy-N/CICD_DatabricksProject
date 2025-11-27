@@ -1,4 +1,3 @@
-
 name: main
 
 on:
@@ -26,40 +25,23 @@ jobs:
         with:
           python-version: '3.8'
 
-      # ✅ Install nbQA, Black, and Flake8 for notebook checks
       - name: Install notebook linting tools
         run: pip install nbqa black flake8
 
-      # ✅ Auto-format notebooks (future-ready)
       - name: Format notebooks with Black
         run: nbqa black . --line-length 120
 
-      # ✅ Lint notebooks for syntax and style
       - name: Lint notebooks with Flake8
         run: nbqa flake8 . --max-line-length=120 --ignore=E402,E501
 
-      # ✅ Install dependencies if requirements.txt exists
       - name: Install dependencies
         run: |
-          if [ -f requirements.txt ]; then
-            echo "Installing dependencies from requirements.txt"
-            pip install -r requirements.txt
-          else
-            echo "No requirements.txt found, skipping..."
-          fi
+          [ -f requirements.txt ] && pip install -r requirements.txt || echo "No requirements.txt found"
 
-      # ✅ Run tests if tests/ directory exists
       - name: Run tests
         run: |
-          if [ -d tests ]; then
-            echo "Running pytest..."
-            pip install pytest
-            pytest
-          else
-            echo "No tests directory found, skipping..."
-          fi
+          [ -d tests ] && pip install pytest && pytest || echo "No tests directory found"
 
-      # ✅ Databricks CLI setup
       - name: Set up Databricks CLI
         uses: databricks/setup-cli@main
 
