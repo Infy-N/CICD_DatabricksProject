@@ -8,9 +8,6 @@ on:
     branches:
       - main
 
-permissions:
-  contents: write  # Required for pushing changes back to the repo if needed
-
 jobs:
   deploy-dev:
     runs-on: ubuntu-latest
@@ -29,20 +26,40 @@ jobs:
         with:
           python-version: '3.8'
 
-      - name: Install nbQA and Black
-        run: pip install nbqa black
+      # ✅ Install nbQA, Black, and Flake8 for notebook checks
+      - name: Install notebook linting tools
+        run: pip install nbqa black flake8
 
-      - name: Auto-format notebooks with Black
-        run: nbqa black . --line-length 166
+      # ✅ Auto-format notebooks (future-ready)
+      - name: Format notebooks with Black
+        run: nbqa black . --line-length 120
 
-      - name: Install dependencies (optional)
+      # ✅ Lint notebooks for syntax and style
+      - name: Lint notebooks with Flake8
+        run: nbqa flake8 . --max-line-length=120
+
+      # ✅ Install dependencies if requirements.txt exists
+      - name: Install dependencies
         run: |
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          if [ -f requirements.txt ]; then
+            echo "Installing dependencies from requirements.txt"
+            pip install -r requirements.txt
+          else
+            echo "No requirements.txt found, skipping..."
+          fi
 
-      - name: Run tests (optional)
+      # ✅ Run tests if tests/ directory exists
+      - name: Run tests
         run: |
-          if [ -d tests ]; then pytest; else echo "No tests found"; fi
+          if [ -d tests ]; then
+            echo "Running pytest..."
+            pip install pytest
+            pytest
+          else
+            echo "No tests directory found, skipping..."
+          fi
 
+      # ✅ Databricks CLI setup
       - name: Set up Databricks CLI
         uses: databricks/setup-cli@main
 
@@ -53,8 +70,7 @@ jobs:
       - name: Update Databricks Repo (Dev)
         run: |
           databricks repos update "${{ env.REPO_PATH }}" \
-            --branch "${{ steps.extract_branch.outputs.branch }}" \
-            --force  # ✅ Added to avoid conflicts
+            --branch "${{ steps.extract_branch.outputs.branch }}"
 
   deploy-prod:
     needs: deploy-dev
@@ -84,5 +100,4 @@ jobs:
       - name: Update Databricks Repo (Prod)
         run: |
           databricks repos update "${{ env.REPO_PATH }}" \
-            --branch "${{ steps.extract_branch_prod.outputs.branch }}" \
-            --force  # ✅ Added to avoid conflicts
+            --branch "${{ steps.extract_branch_prod.outputs.branch }}"
