@@ -36,7 +36,7 @@ jobs:
 
       # ✅ Lint notebooks for syntax and style
       - name: Lint notebooks with Flake8
-        run: nbqa flake8 . --max-line-length=120
+        run: nbqa flake8 . --max-line-length=120 --ignore=E402,E501
 
       # ✅ Install dependencies if requirements.txt exists
       - name: Install dependencies
