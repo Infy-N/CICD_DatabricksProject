@@ -27,7 +27,11 @@ jobs:
 
       - name: yamllint
         run: pip install yamllint
-
+  
+      - name: Remove trailing spaces
+        run: |
+          find .github/workflows -type f -name "*.yml" -exec sed -i 's/[ \t]*$//' {} +
+          
       - name: Lint YAML files
         run: yamllint .github/workflows
           
