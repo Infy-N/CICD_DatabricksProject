@@ -38,11 +38,8 @@ jobs:
       - name: Install notebook linting tools
         run: pip install nbqa black flake8
 
-      - name: Install notebook linting tools
-        run: pip install nbqa black flake8
-
       - name: Format notebooks with Black
-        run: nbqa black . --line-length 120 --check
+        run: nbqa black . --line-length 120 --diff --check
 
       - name: Lint notebooks with Flake8
         run: nbqa flake8 . --max-line-length=120
