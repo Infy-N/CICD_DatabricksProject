@@ -1,7 +1,6 @@
----
 name: main
 
-"on":
+on:
   push:
     branches:
       - main
