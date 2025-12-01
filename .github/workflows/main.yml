@@ -25,6 +25,15 @@ jobs:
         with:
           python-version: '3.8'
 
+      - name: yamllint
+        run: pip install yamllint
+
+      - name: Lint YAML files
+        run: yamllint .github/workflows
+          
+      - name: Install notebook linting tools
+        run: pip install nbqa black flake8
+
       - name: Install notebook linting tools
         run: pip install nbqa black flake8
 
