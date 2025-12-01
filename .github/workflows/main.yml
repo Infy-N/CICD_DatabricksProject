@@ -40,7 +40,7 @@ jobs:
 
       - name: Remove trailing spaces in notebooks
         run: |
-          find . -type f -name "*.ipynb" -exec sed -i 's/[ \t]*$//' {} 
+          find . -type f -name "*.ipynb" -exec sed -i 's/[ \t]*$//' {} + 
 
       - name: Format notebooks with Black
         run: nbqa black . --line-length 120 --diff --check
