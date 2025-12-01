@@ -7,7 +7,7 @@ name: main
       - main
     paths-ignore:
       - .github/**
-#gj
+
 jobs:
   deploy-dev:
     runs-on: ubuntu-latest
