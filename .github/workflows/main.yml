@@ -38,12 +38,12 @@ jobs:
       - name: Install notebook linting tools
         run: pip install nbqa black flake8
 
-      - name: Remove trailing spaces in notebooks
-        run: |
-          find . -type f -name "*.ipynb" -exec sed -i 's/[ \t]*$//' {} + 
-
       - name: Format notebooks with Black
         run: nbqa black . --line-length 120 --diff --check
+
+      - name: Auto-format notebooks with Black
+        if: failure()
+        run: nbqa black . --line-length 120
 
       - name: Lint notebooks with Flake8
         run: nbqa flake8 . --max-line-length=120
