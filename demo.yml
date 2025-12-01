@@ -1,16 +1,16 @@
 name: main
 
 on:
-    push:
- branches:
+  push:
+    branches:
       - main
     paths-ignore:
       - .github/**
 
 jobs:
   deploy-dev:
-  runs-on: ubuntu-latest
-       environment: development
+    runs-on: ubuntu-latest
+    environment: development
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
