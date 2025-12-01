@@ -1,21 +1,20 @@
-
 name: main
 
 on:
- push:   # ❌ Wrong indentation (should be 2 spaces under 'on')
-    branches:
-     - main
+    push:
+ branches:
+      - main
     paths-ignore:
       - .github/**
 
 jobs:
- deploy-dev:   # ❌ Wrong indentation (should be 2 spaces under jobs)
-    runs-on: ubuntu-latest
- environment: development  # ❌ Wrong indentation (should align under deploy-dev)
+  deploy-dev:
+  runs-on: ubuntu-latest
+       environment: development
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
-    - name: Set up Python
-      uses: actions/setup-python@v3
-      with:
-       python-version: '3.8'  # ❌ Wrong indentation (should be 8 spaces)
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.8'
