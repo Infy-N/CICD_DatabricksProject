@@ -3,9 +3,9 @@ name: main
 on:
   push:
     branches:
-      - main
+        - main
     paths-ignore:
-      - .github/**
+        - .github/**
 
 jobs:
   deploy-dev:
