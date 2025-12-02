@@ -85,11 +85,6 @@ jobs:
       - name: Set up Databricks CLI
         uses: databricks/setup-cli@main
 
-      - name: Force update Databricks repo
-        run: |
-          databricks repos update "$REPO_PATH" --branch "main" --force
-        shell: /usr/bin/bash -e {0}
-
       - name: Extract branch name
         id: extract_branch_prod
         run: echo "branch=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_OUTPUT
