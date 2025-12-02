@@ -1,3 +1,4 @@
+
 name: main
 
 on:
@@ -25,16 +26,16 @@ jobs:
         with:
           python-version: '3.8'
 
-      - name: yamllint
+      - name: Install yamllint
         run: pip install yamllint
-  
+
       - name: Remove trailing spaces
         run: |
           find .github/workflows -type f -name "*.yml" -exec sed -i 's/[ \t]*$//' {} +
-          
+
       - name: Lint YAML files
         run: yamllint .github/workflows
-          
+
       - name: Install notebook linting tools
         run: pip install nbqa black flake8
 
@@ -42,7 +43,7 @@ jobs:
         run: nbqa black . --line-length 120 --diff --check
 
       - name: Lint notebooks with Flake8
-        run: nbqa flake8 . --max-line-length=120 
+        run: nbqa flake8 . --max-line-length=120
 
       - name: Install dependencies
         run: |
@@ -84,6 +85,11 @@ jobs:
 
       - name: Set up Databricks CLI
         uses: databricks/setup-cli@main
+
+      - name: Force update Databricks repo
+        run: |
+          databricks repos update "$REPO_PATH" --branch "main" --force
+        shell: /usr/bin/bash -e {0}
 
       - name: Extract branch name
         id: extract_branch_prod
