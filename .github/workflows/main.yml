@@ -85,7 +85,6 @@ jobs:
       - name: Set up Databricks CLI
         uses: databricks/setup-cli@main
 
-      # ✅ Check if databricks.yml & main.yml exists before deploying to prod
       - name: Verify databricks.yml exists
         run: |
           if [ ! -f "databricks.yml" ]; then
