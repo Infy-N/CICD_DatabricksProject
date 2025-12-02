@@ -33,7 +33,7 @@ jobs:
           find .github/workflows -type f -name "*.yml" -exec sed -i 's/[ \t]*$//' {} +
 
       - name: Lint YAML files
-        run: yamllint .github/workflows
+        run: yamllint .
 
       - name: Install notebook linting tools
         run: pip install nbqa black flake8
